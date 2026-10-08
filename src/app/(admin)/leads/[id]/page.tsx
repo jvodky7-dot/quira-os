@@ -41,6 +41,7 @@ export default function LeadProfilePage() {
     { id: 'actividad', label: 'Línea de Tiempo' },
     { id: 'agenda', label: 'Agenda & Tareas' },
     { id: 'cotizaciones', label: 'Cotizaciones' },
+    { id: 'objeciones', label: 'Matriz Objeciones' },
     { id: 'atribucion', label: 'Atribución' },
   ];
 
@@ -244,6 +245,41 @@ export default function LeadProfilePage() {
                 </table>
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === 'objeciones' && (
+          <div className="bg-surface border border-border rounded-xl p-6 shadow-sm">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-semibold text-foreground">Matriz Predictiva de Objeciones (P1 Demo)</h3>
+              <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded font-medium">Recomendaciones IA</span>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="p-4 border border-border rounded-lg bg-surface-elevated">
+                <h4 className="font-medium text-sm text-foreground mb-2 flex items-center"><AlertCircle className="w-4 h-4 mr-2 text-yellow-500" /> Objeción detectada en interacciones previas: <strong>"Presupuesto Ajustado"</strong></h4>
+                <p className="text-sm text-muted-foreground mb-4">El cliente indicó en la encuesta un presupuesto de 300M, pero se interesó por unidades de 350M.</p>
+                <div className="bg-background border border-border p-3 rounded text-sm">
+                  <span className="block font-medium mb-1">Estrategia sugerida:</span>
+                  Plantear flexibilización de la cuota inicial a 24 meses. Preguntar si cuentan con subsidio pre-aprobado o cesantías. Enviar cotización con plan de pagos proyectado.
+                </div>
+              </div>
+
+              <div className="p-4 border border-border rounded-lg bg-background">
+                <h4 className="font-medium text-sm text-foreground mb-3">Registrar nueva objeción</h4>
+                <div className="flex gap-3">
+                  <select className="p-2 border border-border rounded bg-surface-elevated text-sm flex-1 focus:outline-none">
+                    <option>Precio Alto</option>
+                    <option>Ubicación lejana</option>
+                    <option>Tiempos de entrega</option>
+                    <option>Falta de parqueadero</option>
+                  </select>
+                  <button className="px-4 py-2 bg-surface border border-border hover:bg-surface-elevated text-sm font-medium rounded transition-colors">
+                    Registrar y pedir sugerencia
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
