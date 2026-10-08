@@ -3,59 +3,97 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-brand: #7F927B;
-  
-  /* Dark Graphite (Default) */
-  --color-bg-primary: #111411;
-  --color-bg-surface: #1B201C;
-  --color-bg-elevated: #283129;
-  --color-text-primary: #E8EDE7;
-  --color-text-secondary: #7F927B;
-  --color-border: #283129;
-  
-  /* Shared/accents */
-  --color-accent: #7F927B;
-  --color-accent-hover: #96a992;
-  
-  /* Theme mapping */
-  --color-background: var(--color-bg-primary);
-  --color-foreground: var(--color-text-primary);
-  
-  --font-sans: var(--font-geist-sans), Inter, sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  /* Tipografía */
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  /* Custom utility classes if needed */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+  /* Colores extraídos del Sistema TriMind Visual */
+  
+  /* DARK THEME (TriMind Defaults) */
+  --color-tm-canvas: #09090B;
+  --color-tm-shell: #09090B;
+  --color-tm-workspace: #111114;
+  --color-tm-surface: #18181D;
+  --color-tm-surface-hover: #1F1F26;
+  --color-tm-surface-active: #262630;
+  --color-tm-elevated: #212128;
+  --color-tm-border: #2A2A33;
+  --color-tm-border-strong: #3D3D4A;
+  --color-tm-hairline: rgba(255, 255, 255, 0.05);
+
+  --color-tm-text: #EDEDF2;
+  --color-tm-text-secondary: #9999A5;
+  --color-tm-text-muted: #72727D;
+
+  --color-tm-accent: #6C72FF;
+  --color-tm-accent-hover: #8B8FFF;
+  --color-tm-accent-strong: #A8AAFF;
+
+  --color-tm-state-pending: #E6B04E;
+  --color-tm-state-scheduled: #6C72FF;
+  --color-tm-state-progress: #4F8DF2;
+  --color-tm-state-review: #A56EF2;
+  --color-tm-state-completed: #34C759;
+  --color-tm-state-blocked: #FF453A;
+
+  /* Mapeo a utilidades de Tailwind (Dark Graphite) */
+  --color-background: var(--color-tm-workspace);
+  --color-foreground: var(--color-tm-text);
+  --color-surface: var(--color-tm-surface);
+  --color-surface-elevated: var(--color-tm-elevated);
+  --color-border: var(--color-tm-border);
+  --color-primary: var(--color-tm-accent);
+  --color-primary-foreground: #FFFFFF;
+  --color-muted: var(--color-tm-surface-active);
+  --color-muted-foreground: var(--color-tm-text-secondary);
+
+  /* Geometría de TriMind */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --radius-xl: 20px;
 }
 
 @layer base {
   :root {
-    --background: #111411;
-    --foreground: #E8EDE7;
-    --surface: #1B201C;
-    --surface-elevated: #283129;
-    --border: #283129;
-    --primary: #7F927B;
-    --primary-foreground: #111411;
-    --muted: #283129;
-    --muted-foreground: #7F927B;
-    --ring: #7F927B;
+    /* Mapeo dinámico */
+    --background: var(--color-tm-workspace);
+    --foreground: var(--color-tm-text);
+    --surface: var(--color-tm-surface);
+    --surface-elevated: var(--color-tm-elevated);
+    --border: var(--color-tm-border);
+    --primary: var(--color-tm-accent);
+    --primary-foreground: #FFFFFF;
+    --muted: var(--color-tm-surface-active);
+    --muted-foreground: var(--color-tm-text-secondary);
+    
+    --tm-shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 4px 14px -6px rgba(0, 0, 0, 0.4);
+    --tm-shadow-window: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 56px -12px rgba(0, 0, 0, 0.8);
   }
-  
+
+  /* Warm Porcelain (Light Theme TriMind) */
   .light {
-    --background: #F1EEE7;
-    --foreground: #343B34;
-    --surface: #E4DED2;
-    --surface-elevated: #B7AC99;
-    --border: #B7AC99;
-    --primary: #7F927B;
-    --primary-foreground: #F1EEE7;
-    --muted: #E4DED2;
-    --muted-foreground: #B7AC99;
-    --ring: #7F927B;
+    --color-tm-workspace: #F8F7F4;
+    --color-tm-text: #17181C;
+    --color-tm-surface: #FFFFFF;
+    --color-tm-elevated: #FFFFFF;
+    --color-tm-border: #E4E2DD;
+    --color-tm-accent: #4146B4;
+    --color-tm-surface-active: #F2F1ED;
+    --color-tm-text-secondary: #54555E;
+
+    --background: var(--color-tm-workspace);
+    --foreground: var(--color-tm-text);
+    --surface: var(--color-tm-surface);
+    --surface-elevated: var(--color-tm-elevated);
+    --border: var(--color-tm-border);
+    --primary: var(--color-tm-accent);
+    --primary-foreground: #FFFFFF;
+    --muted: var(--color-tm-surface-active);
+    --muted-foreground: var(--color-tm-text-secondary);
+    
+    --tm-shadow-card: 0 0 0 1px rgba(23, 24, 28, 0.045), 0 4px 14px -6px rgba(23, 24, 28, 0.06);
+    --tm-shadow-window: 0 0 0 1px rgba(23, 24, 28, 0.08), 0 40px 80px -12px rgba(60, 48, 30, 0.2);
   }
 
   * {
@@ -66,5 +104,14 @@
     background-color: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
+  }
+}
+
+@layer utilities {
+  .shadow-tm-card {
+    box-shadow: var(--tm-shadow-card);
+  }
+  .shadow-tm-window {
+    box-shadow: var(--tm-shadow-window);
   }
 }

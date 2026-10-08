@@ -28,9 +28,9 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="w-64 flex-shrink-0 bg-surface flex flex-col h-full border-r border-border">
-      <div className="h-16 flex items-center px-6 border-b border-border">
-        <h1 className="font-semibold text-lg tracking-tight text-foreground">
+    <div className="w-[248px] flex-shrink-0 bg-background flex flex-col h-full border-r-0">
+      <div className="h-[60px] flex items-center px-6 mt-2">
+        <h1 className="font-semibold text-[15px] tracking-tight text-foreground">
           Quirá OS
         </h1>
         <span className="ml-2 text-[10px] uppercase font-bold tracking-wider text-primary bg-primary/10 px-1.5 py-0.5 rounded">
@@ -46,25 +46,25 @@ export function Sidebar() {
               key={item.name}
               href={item.href}
               className={cn(
-                "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                "flex items-center px-3 py-2 text-[13.5px] font-medium rounded-lg transition-colors",
                 isActive 
                   ? "bg-primary/10 text-primary" 
                   : "text-muted-foreground hover:bg-surface-elevated hover:text-foreground"
               )}
             >
-              <item.icon className={cn("mr-3 h-5 w-5", isActive ? "text-primary" : "text-muted-foreground")} />
+              <item.icon className={cn("mr-3 h-4 w-4", isActive ? "text-primary" : "text-muted-foreground")} />
               {item.name}
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-4 border-t border-border">
+      <div className="p-4">
         <Link
           href="/settings"
-          className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-muted-foreground hover:bg-surface-elevated hover:text-foreground transition-colors"
+          className="flex items-center px-3 py-2 text-[13.5px] font-medium rounded-lg text-muted-foreground hover:bg-surface-elevated hover:text-foreground transition-colors"
         >
-          <Settings className="mr-3 h-5 w-5 text-muted-foreground" />
+          <Settings className="mr-3 h-4 w-4 text-muted-foreground" />
           Configuración
         </Link>
       </div>
