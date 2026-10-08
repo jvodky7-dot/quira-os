@@ -12,7 +12,9 @@ import {
   Building2,
   Settings,
   FileText,
-  Sun
+  Sun,
+  Swords,
+  UploadCloud
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -26,6 +28,8 @@ const navItems = [
   { name: "Agenda", href: "/agenda", icon: CalendarDays },
   { name: "Inventario", href: "/inventory", icon: Building2 },
   { name: "Transaccional", href: "/quotes", icon: FileText },
+  { name: "Competencia", href: "/competitors", icon: Swords },
+  { name: "Importar CSV", href: "/import", icon: UploadCloud },
 ];
 
 export function Sidebar() {

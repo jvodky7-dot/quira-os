@@ -21,6 +21,58 @@ export default function QuotesPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
+        {/* Generador de Escenarios (M04) */}
+        <div className="bg-surface border border-border rounded-xl shadow-sm overflow-hidden flex flex-col col-span-1 lg:col-span-2 mb-4">
+          <div className="p-4 border-b border-border flex justify-between items-center bg-surface-elevated/30">
+            <h3 className="font-semibold text-foreground flex items-center">Cotizador Multiescenario (M04)</h3>
+            <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded font-medium">Demo Interactiva</span>
+          </div>
+          <div className="p-6 flex flex-col md:flex-row gap-6">
+            <div className="flex-1 space-y-4">
+              <div>
+                <label className="text-xs font-medium text-muted-foreground block mb-1">Unidad Seleccionada</label>
+                <select className="w-full p-2 border border-border rounded bg-background text-sm">
+                  <option>T1-102 (Tipo A - 65m²)</option>
+                  <option>T1-205 (Tipo B - 85m²)</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground block mb-1">Precio Lista (v1.2)</label>
+                  <input type="text" disabled value="$350,000,000" className="w-full p-2 border border-border rounded bg-surface-elevated text-sm opacity-70" />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground block mb-1">% Cuota Inicial</label>
+                  <select className="w-full p-2 border border-border rounded bg-background text-sm">
+                    <option>30% ($105M)</option>
+                    <option>40% ($140M)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex-1 border-l border-border pl-6">
+              <h4 className="text-sm font-semibold mb-3">Escenarios de Pago Generados</h4>
+              <div className="space-y-3">
+                <div className="p-3 border border-primary/50 bg-primary/5 rounded-lg flex justify-between items-center">
+                  <div>
+                    <div className="font-medium text-sm text-primary">Escenario A: Tradicional</div>
+                    <div className="text-xs text-muted-foreground mt-0.5">24 cuotas de $4.3M + Separación $2M</div>
+                  </div>
+                  <button className="text-xs font-medium bg-primary text-primary-foreground px-3 py-1.5 rounded">Elegir</button>
+                </div>
+                <div className="p-3 border border-border rounded-lg flex justify-between items-center hover:bg-surface-elevated transition-colors">
+                  <div>
+                    <div className="font-medium text-sm">Escenario B: Flex/Cesantías</div>
+                    <div className="text-xs text-muted-foreground mt-0.5">18 cuotas de $3.5M + 2 Primas de $21M</div>
+                  </div>
+                  <button className="text-xs font-medium border border-border bg-surface px-3 py-1.5 rounded">Elegir</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Panel Cotizaciones */}
         <div className="bg-surface border border-border rounded-xl shadow-sm overflow-hidden flex flex-col">
           <div className="p-4 border-b border-border flex justify-between items-center bg-surface-elevated/30">

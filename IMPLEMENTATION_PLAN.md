@@ -30,13 +30,17 @@ Verticales completas que demuestran el flujo de punta a punta.
 
 Estas funcionalidades se representarán como "No disponibles en Demo" o UI deshabilitada:
 
-**P1 (Refinamiento)**:
+**P1 (Refinamiento) - ✅ COMPLETADO**:
 - ✅ Búsqueda global avanzada (Command Palette `CMD+K`).
 - ✅ Matrix de objeciones interactiva predictiva (Ficha 360).
-- ⏳ Versionado dinámico de encuestas (editor visual AB testing).
-- ⏳ Exportaciones granulares CSV controladas por RLS.
+- ✅ Versionado dinámico de encuestas (editor visual AB testing).
+- ✅ Importación y recuperación del histórico (M16).
+- ✅ Inventario visual por torre y alertas (M05).
+- ✅ Cotizador multiescenario interactivo (M04).
+- ✅ Comparador de competencia con evidencia (M13).
+- ✅ Sala de ventas digital / modo kiosco (M06).
 
-**P2 (Producción/Backend Real)**:
+**P2 (Producción/Backend Real) - ⏳ PENDIENTE**:
 - Integración real con Meta Conversions API y WhatsApp Business API.
 - Motor de base de datos relacional transaccional (PostgreSQL/Supabase) con RLS (Row Level Security).
 - Autenticación multitenant con JWT.
