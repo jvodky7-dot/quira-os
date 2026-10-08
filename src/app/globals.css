@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-brand: #7F927B;
+  
+  /* Dark Graphite (Default) */
+  --color-bg-primary: #111411;
+  --color-bg-surface: #1B201C;
+  --color-bg-elevated: #283129;
+  --color-text-primary: #E8EDE7;
+  --color-text-secondary: #7F927B;
+  --color-border: #283129;
+  
+  /* Shared/accents */
+  --color-accent: #7F927B;
+  --color-accent-hover: #96a992;
+  
+  /* Theme mapping */
+  --color-background: var(--color-bg-primary);
+  --color-foreground: var(--color-text-primary);
+  
+  --font-sans: var(--font-geist-sans), Inter, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  /* Custom utility classes if needed */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
+@layer base {
+  :root {
+    --background: #111411;
+    --foreground: #E8EDE7;
+    --surface: #1B201C;
+    --surface-elevated: #283129;
+    --border: #283129;
+    --primary: #7F927B;
+    --primary-foreground: #111411;
+    --muted: #283129;
+    --muted-foreground: #7F927B;
+    --ring: #7F927B;
+  }
+  
+  .light {
+    --background: #F1EEE7;
+    --foreground: #343B34;
+    --surface: #E4DED2;
+    --surface-elevated: #B7AC99;
+    --border: #B7AC99;
+    --primary: #7F927B;
+    --primary-foreground: #F1EEE7;
+    --muted: #E4DED2;
+    --muted-foreground: #B7AC99;
+    --ring: #7F927B;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+}
