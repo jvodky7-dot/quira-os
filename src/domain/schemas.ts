@@ -195,6 +195,26 @@ export const CampaignSchema = z.object({
   spend: z.number()
 });
 
+export const ContactAttemptSchema = z.object({
+  id: IdSchema,
+  opportunity_id: IdSchema,
+  channel: z.enum(['WHATSAPP', 'CALL', 'EMAIL']),
+  attempted_at: DateStringSchema,
+  outcome: z.enum(['NO_ANSWER', 'BUSY', 'VOICEMAIL', 'EFFECTIVE']),
+  actor_id: z.string()
+});
+
+export const SalesQueueEntrySchema = z.object({
+  id: IdSchema,
+  opportunity_id: IdSchema,
+  first_due_at: DateStringSchema,
+  assigned_at: DateStringSchema.nullable(),
+  accepted_at: DateStringSchema.nullable(),
+  breached_at: DateStringSchema.nullable(),
+  queue_state: z.enum(['PENDING', 'ASSIGNED', 'ACCEPTED', 'BREACHED']),
+  rule_id: z.string().nullable()
+});
+
 export type Lead = z.infer<typeof LeadSchema>;
 export type Intake = z.infer<typeof IntakeSchema>;
 export type Opportunity = z.infer<typeof OpportunitySchema>;
@@ -211,3 +231,5 @@ export type LossEvent = z.infer<typeof LossEventSchema>;
 export type User = z.infer<typeof UserSchema>;
 export type OpportunityStage = z.infer<typeof OpportunityStageEnum>;
 export type Campaign = z.infer<typeof CampaignSchema>;
+export type ContactAttempt = z.infer<typeof ContactAttemptSchema>;
+export type SalesQueueEntry = z.infer<typeof SalesQueueEntrySchema>;

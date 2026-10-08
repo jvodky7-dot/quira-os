@@ -1,6 +1,7 @@
 import { 
   Lead, Opportunity, SurveySubmission, User, Campaign, PropertyUnit, 
-  Activity, Task, Intake, AttributionTouch, Quote, StageTransition, Sale, OpportunityStage
+  Activity, Task, Intake, AttributionTouch, Quote, StageTransition, Sale, OpportunityStage,
+  ContactAttempt, SalesQueueEntry
 } from '../domain/schemas';
 
 const generateId = (prefix: string) => `${prefix}-${Math.random().toString(36).substring(2, 9)}`;
@@ -106,7 +107,12 @@ export function generateSeedData() {
     }
   }
 
-  return { users, campaigns, units, leads, intakes, opportunities, stageTransitions, submissions, activities, tasks, quotes, attributions, sales };
+  return { 
+    users, campaigns, units, leads, intakes, opportunities, 
+    stageTransitions, submissions, activities, tasks, quotes, 
+    attributions, sales, contactAttempts: [] as ContactAttempt[], 
+    queueEntries: [] as SalesQueueEntry[] 
+  };
 }
 
 export const initialMockData = generateSeedData();

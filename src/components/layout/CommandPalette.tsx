@@ -27,7 +27,7 @@ export function CommandPalette() {
 
   if (!isOpen) return null;
 
-  const results = [];
+  const results: any[] = [];
   const q = query.toLowerCase();
 
   if (q.length > 1) {

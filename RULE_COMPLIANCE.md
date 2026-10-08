@@ -32,5 +32,32 @@
 | BR-028 | ⏳ Pendiente | - | `domain/consent.ts` | ConsentRecord individual. |
 | BR-029 | ⏳ Pendiente | - | `domain/unit.ts` | Inventario DEMO sin prometer precios reales. |
 | BR-030 | ✅ Implementado | AT-25 | `store/useStore.ts` | Persistencia compartida entre ventanas. |
+| BR-031 | ✅ Implementado | AT-026 | `app/my-day` | Asignación y cola de espera visible (M01). |
+| BR-032 | ✅ Implementado | AT-027 | `store/useStore.ts` | `recordAttempt` distingue intento vs efectivo. |
+| BR-033 | ⏳ Pendiente | - | `domain/transition.ts`| Razón y actor al reasignar responsable. |
+| BR-034 | ✅ Implementado | AT-028 | `app/my-day` | SLA vencido alertado sin cambiar etapa. |
+| BR-035 | ⏳ Pendiente | - | `store/useStore.ts` | Toda Opportunity activa debe tener próxima acción. |
+| BR-036 | ✅ Implementado | - | `app/pipeline` | Diferenciar score predictivo de riesgo operativo. |
+| BR-037 | ✅ Implementado | - | `app/leads/[id]` | Financiación como dato informativo, no aprobación. |
+| BR-038 | ✅ Implementado | AT-031 | `app/leads/[id]` | Parqueadero es objeción, no exclusión. |
+| BR-039 | ✅ Implementado | AT-033 | `domain/schemas.ts` | Cotización conserva precio, versión y supuestos. |
+| BR-040 | ⏳ Pendiente | AT-032 | `domain/reservation.ts`| Verificación de inventario antes de reservar. |
+| BR-041 | ⏳ Pendiente | - | `domain/quote.ts` | Aprobación para cambios de precio. |
+| BR-042 | ✅ Implementado | AT-032 | `app/quotes` | Reserva es transaccional (M04, M12). |
+| BR-043 | ⏳ Pendiente | - | `store/useStore.ts` | Dos asesoras no pueden reservar misma unidad. |
+| BR-044 | ⏳ Pendiente | - | `store/useStore.ts` | Expiración de reserva no hace venta. |
+| BR-045 | ⏳ Pendiente | AT-030 | `store/useStore.ts` | Visita agendada vs realizada vs no-show. |
+| BR-046 | ⏳ Pendiente | AT-030 | `app/my-day` | No-show crea seguimiento en M08. |
+| BR-047 | ⏳ Pendiente | - | `store/useStore.ts` | Pérdida conserva motivo. |
+| BR-048 | ⏳ Pendiente | - | `domain/schemas.ts` | CommercialHypothesis (M09). |
+| BR-049 | ⏳ Pendiente | AT-034 | `app/marketing` | Muestra insuficiente no declara ganador. |
+| BR-050 | ⏳ Pendiente | - | `app/marketing` | Separar calidad comercial de la velocidad. |
+| BR-051 | ✅ Implementado | - | `store/useStore.ts` | Inventario base compartido y simulado. |
+| BR-052 | ⏳ Pendiente | - | `domain/schemas.ts` | MarketComparisonSnapshot (M13). |
+| BR-053 | ✅ Implementado | - | `app/quotes` | UI no promete preaprobaciones. |
+| BR-054 | ⏳ Pendiente | - | `domain/schemas.ts` | FinancingMilestone (M11). |
+| BR-055 | ⏳ Pendiente | AT-035 | `app/dashboard` | Drill-down en KPIs. |
+| BR-056 | ⏳ Pendiente | - | `domain/metrics.ts` | Reactivación no distorsiona CPA histórico. |
+| BR-057 | ⏳ Pendiente | - | `domain/import.ts` | Importación CSV (M16). |
 
-*Estado: Todos Pendientes para reescritura en V2 siguiendo la estricta persistencia en dominio.*
+*Estado: Las reglas de la V2.1 han sido añadidas. Prioridad en M01, M02, M03, M07.*

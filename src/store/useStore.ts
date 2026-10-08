@@ -2,7 +2,8 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { 
   Lead, Opportunity, SurveySubmission, Campaign, PropertyUnit, 
-  User, StageTransition, Intake, AttributionTouch, Activity, Task, Quote, OpportunityStage, Sale
+  User, StageTransition, Intake, AttributionTouch, Activity, Task, Quote, OpportunityStage, Sale,
+  ContactAttempt, SalesQueueEntry
 } from '../domain/schemas';
 import { initialMockData } from './mockData';
 
@@ -48,6 +49,14 @@ interface CommandSalePayload {
   actorId: string;
 }
 
+interface CommandAttemptPayload {
+  opportunityId: string;
+  channel: 'WHATSAPP' | 'CALL' | 'EMAIL';
+  outcome: 'NO_ANSWER' | 'BUSY' | 'VOICEMAIL' | 'EFFECTIVE';
+  actorId: string;
+  notes?: string;
+}
+
 interface AppState {
   users: User[];
   campaigns: Campaign[];
@@ -62,11 +71,14 @@ interface AppState {
   quotes: Quote[];
   attributions: AttributionTouch[];
   sales: Sale[];
+  contactAttempts: ContactAttempt[];
+  queueEntries: SalesQueueEntry[];
 
   // CQRS Commands
   submitSurvey: (payload: CommandSubmitSurveyPayload) => Promise<{ submissionId: string; leadId: string; opportunityId: string }>;
   transitionOpportunity: (payload: CommandTransitionStagePayload) => Promise<Opportunity>;
   recordContact: (payload: CommandContactPayload) => Promise<Activity>;
+  recordAttempt: (payload: CommandAttemptPayload) => Promise<ContactAttempt>;
   scheduleVisit: (payload: CommandVisitPayload) => Promise<Task>;
   issueQuote: (payload: CommandQuotePayload) => Promise<Quote>;
   confirmSale: (payload: CommandSalePayload) => Promise<Sale>;
@@ -213,6 +225,28 @@ export const useStore = create<AppState>()(
         }));
 
         return updatedOpp;
+      },
+
+      recordAttempt: async ({ opportunityId, channel, outcome, actorId, notes }) => {
+        const attempt: ContactAttempt = {
+          id: `att-${Date.now()}`,
+          opportunity_id: opportunityId,
+          channel,
+          outcome,
+          attempted_at: new Date().toISOString(),
+          actor_id: actorId
+        };
+        
+        set(s => ({ contactAttempts: [...s.contactAttempts, attempt] }));
+
+        if (outcome === 'EFFECTIVE') {
+          await get().recordContact({ opportunityId, channel, notes: notes || 'Contacto exitoso', actorId });
+          const opp = get().opportunities.find(o => o.id === opportunityId);
+          if (opp && opp.stage === 'NEW') {
+            await get().transitionOpportunity({ opportunityId, newStage: 'CONTACTED', actorId });
+          }
+        }
+        return attempt;
       },
 
       recordContact: async ({ opportunityId, channel, notes, actorId }) => {

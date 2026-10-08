@@ -11,11 +11,13 @@ import {
   CalendarDays, 
   Building2,
   Settings,
-  FileText
+  FileText,
+  Sun
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
+  { name: "Mi Día", href: "/my-day", icon: Sun },
   { name: "Centro de control", href: "/dashboard", icon: LayoutDashboard },
   { name: "Pipeline", href: "/pipeline", icon: KanbanSquare },
   { name: "Contactos", href: "/leads", icon: Users },
