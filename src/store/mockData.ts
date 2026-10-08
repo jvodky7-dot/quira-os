@@ -1,6 +1,6 @@
 import { 
   Lead, Opportunity, SurveySubmission, User, Campaign, PropertyUnit, 
-  Activity, Task, Intake, AttributionTouch, Quote, StageTransition
+  Activity, Task, Intake, AttributionTouch, Quote, StageTransition, Sale
 } from '../domain/schemas';
 
 export const users: User[] = [
@@ -59,8 +59,9 @@ export const quotes: Quote[] = [];
 export const attributions: AttributionTouch[] = [
   { id: 'attr-1', intake_id: intakes[0].id, session_id: 'sess1', lead_id: leads[0].id, campaign_id: 'cmp_01', creative_id: null, utm_json: { utm_source: 'meta', utm_campaign: 'Espacio_Octubre_Meta' }, source: 'meta', medium: 'social', occurred_at: twoDaysAgo, confidence: 'HIGH' }
 ];
+export const sales: Sale[] = [];
 
 export const initialMockData = {
   users, campaigns, units, leads, intakes, opportunities, 
-  stageTransitions, submissions, activities, tasks, quotes, attributions
+  stageTransitions, submissions, activities, tasks, quotes, attributions, sales
 };

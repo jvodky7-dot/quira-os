@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { 
   Lead, Opportunity, SurveySubmission, Campaign, PropertyUnit, 
-  User, StageTransition, Intake, AttributionTouch, Activity, Task, Quote, OpportunityStage
+  User, StageTransition, Intake, AttributionTouch, Activity, Task, Quote, OpportunityStage, Sale
 } from '../domain/schemas';
 import { initialMockData } from './mockData';
 
@@ -19,6 +19,35 @@ interface CommandTransitionStagePayload {
   overrideReason?: string;
 }
 
+interface CommandContactPayload {
+  opportunityId: string;
+  channel: string;
+  notes: string;
+  actorId: string;
+}
+
+interface CommandVisitPayload {
+  opportunityId: string;
+  scheduledAt: string;
+  location: string;
+  assigneeId: string;
+}
+
+interface CommandQuotePayload {
+  opportunityId: string;
+  unitId?: string;
+  amount: number;
+  actorId: string;
+}
+
+interface CommandSalePayload {
+  opportunityId: string;
+  unitId: string;
+  amount: number;
+  evidenceRef: string;
+  actorId: string;
+}
+
 interface AppState {
   users: User[];
   campaigns: Campaign[];
@@ -32,10 +61,15 @@ interface AppState {
   tasks: Task[];
   quotes: Quote[];
   attributions: AttributionTouch[];
+  sales: Sale[];
 
   // CQRS Commands
   submitSurvey: (payload: CommandSubmitSurveyPayload) => Promise<{ submissionId: string; leadId: string; opportunityId: string }>;
   transitionOpportunity: (payload: CommandTransitionStagePayload) => Promise<Opportunity>;
+  recordContact: (payload: CommandContactPayload) => Promise<Activity>;
+  scheduleVisit: (payload: CommandVisitPayload) => Promise<Task>;
+  issueQuote: (payload: CommandQuotePayload) => Promise<Quote>;
+  confirmSale: (payload: CommandSalePayload) => Promise<Sale>;
   
   // Resets
   resetToDemo: () => void;
@@ -161,7 +195,6 @@ export const useStore = create<AppState>()(
         if (!opp) throw new Error("Opportunity not found");
         if (opp.stage === newStage) return opp;
 
-        // Implementación de BR-006: StageTransition append-only
         const transition: StageTransition = {
           id: `st-${Date.now()}`,
           opportunity_id: opportunityId,
@@ -180,6 +213,95 @@ export const useStore = create<AppState>()(
         }));
 
         return updatedOpp;
+      },
+
+      recordContact: async ({ opportunityId, channel, notes, actorId }) => {
+        const activity: Activity = {
+          id: `act-${Date.now()}`,
+          opportunity_id: opportunityId,
+          type: channel === 'CALL' ? 'CALL' : 'NOTE',
+          subject: `Contacto vía ${channel}`,
+          body: notes,
+          occurred_at: new Date().toISOString(),
+          actor_id: actorId,
+          outcome: 'SUCCESS'
+        };
+        set(s => ({ activities: [...s.activities, activity] }));
+        return activity;
+      },
+
+      scheduleVisit: async ({ opportunityId, scheduledAt, location, assigneeId }) => {
+        const task: Task = {
+          id: `tsk-${Date.now()}`,
+          opportunity_id: opportunityId,
+          assignee_id: assigneeId,
+          kind: 'VISIT',
+          due_at: scheduledAt,
+          status: 'PENDING',
+          priority: 'HIGH',
+          completed_at: null
+        };
+        
+        const state = get();
+        const opp = state.opportunities.find(o => o.id === opportunityId);
+        if (opp) {
+          const updatedOpp = { ...opp, next_action_due_at: scheduledAt, updated_at: new Date().toISOString() };
+          set(s => ({
+            opportunities: s.opportunities.map(o => o.id === opportunityId ? updatedOpp : o),
+            tasks: [...s.tasks, task]
+          }));
+        } else {
+          set(s => ({ tasks: [...s.tasks, task] }));
+        }
+
+        return task;
+      },
+
+      issueQuote: async ({ opportunityId, unitId, amount, actorId }) => {
+        const quote: Quote = {
+          id: `qt-${Date.now()}`,
+          opportunity_id: opportunityId,
+          unit_id: unitId || null,
+          quote_number: `Q-${Math.floor(Math.random()*10000)}`,
+          revision: 1,
+          commercial_total_cop: amount,
+          status: 'ISSUED',
+          issued_at: new Date().toISOString(),
+          valid_until: new Date(Date.now() + 86400000 * 15).toISOString(), // 15 días
+          created_by: actorId
+        };
+        set(s => ({ quotes: [...s.quotes, quote] }));
+        return quote;
+      },
+
+      confirmSale: async ({ opportunityId, unitId, amount, evidenceRef, actorId }) => {
+        const sale: Sale = {
+          id: `sl-${Date.now()}`,
+          opportunity_id: opportunityId,
+          unit_id: unitId,
+          reservation_id: null,
+          value_cop: amount,
+          verification_status: 'VERIFIED', // Autoverificado en demo
+          verified_by: actorId,
+          confirmed_at: new Date().toISOString(),
+          voided_at: null,
+          evidence_reference: evidenceRef
+        };
+
+        const state = get();
+        const opp = state.opportunities.find(o => o.id === opportunityId);
+        
+        set(s => ({
+          sales: [...(s.sales || []), sale],
+          units: s.units.map(u => u.id === unitId ? { ...u, inventory_state: 'SOLD' as const } : u),
+          opportunities: s.opportunities.map(o => o.id === opportunityId ? { ...o, stage: 'WON' as const, updated_at: new Date().toISOString() } : o)
+        }));
+
+        if (opp && opp.stage !== 'WON') {
+          get().transitionOpportunity({ opportunityId, newStage: 'WON', actorId });
+        }
+
+        return sale;
       },
 
       resetToDemo: () => set(initialMockData),

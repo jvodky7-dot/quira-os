@@ -5,7 +5,7 @@
 | BR-001 | ⏳ Pendiente | AT-03, AT-04 | `domain/lead.ts` | Identidad única por teléfono E.164. |
 | BR-002 | ✅ Implementado | AT-24 | `store/useStore.ts` | Cada captura persiste fuente y fecha. |
 | BR-003 | ✅ Implementado | - | `domain/schemas.ts` | Separación de Lead y Opportunity. |
-| BR-004 | ⏳ Pendiente | AT-12 | `domain/sale.ts` | Venta exige comando autorizado, no select UI. |
+| BR-004 | ✅ Implementado | AT-12 | `domain/sale.ts` | Venta exige comando autorizado, no select UI. |
 | BR-005 | ⏳ Pendiente | AT-10 | `domain/reservation.ts` | Separación no es venta en métricas. |
 | BR-006 | ✅ Implementado | AT-06 | `store/useStore.ts`| Etapas guardan fecha, actor y motivo. |
 | BR-007 | ⏳ Pendiente | AT-13 | `domain/opportunity.ts` | Pérdida requiere causa tipificada. |
@@ -18,7 +18,7 @@
 | BR-014 | ⏳ Pendiente | - | `domain/task.ts` | Cambio de etapa no auto-completa tareas. |
 | BR-015 | ⏳ Pendiente | AT-08 | `domain/visit.ts` | Cita agendada != realizada. |
 | BR-016 | ⏳ Pendiente | AT-09 | `domain/quote.ts` | Cotización versionada al cambiar valor. |
-| BR-017 | ⏳ Pendiente | AT-11 | `domain/unit.ts` | Bloqueo de inventario tras separación. |
+| BR-017 | ✅ Implementado | AT-11 | `domain/unit.ts` | Bloqueo de inventario tras separación/venta. |
 | BR-018 | ⏳ Pendiente | AT-16 | `domain/metrics.ts` | KPIs calculados de fuente única. |
 | BR-019 | ⏳ Pendiente | AT-18 | `domain/metrics.ts` | Manejo seguro de división por cero en KPIs. |
 | BR-020 | ⏳ Pendiente | AT-17 | `domain/metrics.ts` | Diferenciar cohortes de eventos actuales. |

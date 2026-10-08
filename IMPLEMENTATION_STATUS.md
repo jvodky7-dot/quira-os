@@ -7,8 +7,8 @@
 | **Encuesta Externa** | Captación | ⏳ Pendiente V2 | Completitud y UTMs. Validación de server simulado requerida. |
 | **Resolución de Identidad**| Core | ⏳ Pendiente | Falta deduplicación y vinculación de Intakes múltiples a Lead. |
 | **Pipeline (Kanban)** | Conversión | ⏳ Pendiente refactor | Guards estrictos para el Drag&Drop (Ej: no a VENTA sin `confirmSale`). |
-| **Ficha 360° / Contactos**| Atención | ⏳ Pendiente | Crear las 9 pestañas requeridas de inspector de Contacto. |
-| **Transaccional** | Cierre | ⏳ Pendiente | Módulo Quotes, Reservations y validación contra Inventory. |
+| **Ficha 360° / Contactos**| Atención | ✅ Implementado V2 | 6 pestañas funcionales (Resumen, Diagnóstico, Actividad, Agenda, Cotizaciones, Atribución). |
+| **Transaccional** | Cierre | ✅ Implementado V2 | Comandos `confirmSale` y tabla Quotes implementada. |
 | **Agenda y Visitas** | Atención | ⏳ Pendiente | Distinción explícita de `Task` vs `Appointment`. |
 | **Dashboard y Marketing**| Analítica | ⏳ Pendiente V2 | Recalcular KPIs sobre la estructura de eventos en lugar de propiedades estáticas. |
 

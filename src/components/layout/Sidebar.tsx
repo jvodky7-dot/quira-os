@@ -10,7 +10,8 @@ import {
   LineChart, 
   CalendarDays, 
   Building2,
-  Settings
+  Settings,
+  FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +23,7 @@ const navItems = [
   { name: "Marketing Intelligence", href: "/marketing", icon: LineChart },
   { name: "Agenda", href: "/agenda", icon: CalendarDays },
   { name: "Inventario", href: "/inventory", icon: Building2 },
+  { name: "Transaccional", href: "/quotes", icon: FileText },
 ];
 
 export function Sidebar() {
