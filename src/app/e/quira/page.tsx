@@ -227,10 +227,15 @@ function SurveyForm() {
   );
 }
 
-export default function SurveyPage() {
+function ExternalSurveyContent() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-[#F1EEE7] flex items-center justify-center">Cargando...</div>}>
       <SurveyForm />
     </Suspense>
   );
 }
+
+
+import { Suspense as ReactSuspense } from 'react';
+export default function ExternalSurveyPage() { return <ReactSuspense fallback={<div className="min-h-screen p-8">Cargando...</div>}><ExternalSurveyContent /></ReactSuspense>; }
+

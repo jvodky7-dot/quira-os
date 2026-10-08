@@ -6,7 +6,7 @@ import { ArrowLeft, Phone, Mail, Calendar, CheckCircle2, AlertCircle } from "luc
 import { format, parseISO } from "date-fns";
 import { useState } from "react";
 
-export default function LeadProfilePage() {
+function LeadProfileContent() {
   const { id } = useParams() as { id: string };
   const router = useRouter();
   const store = useStore();
@@ -314,3 +314,7 @@ export default function LeadProfilePage() {
     </div>
   );
 }
+
+
+import { Suspense as ReactSuspense } from 'react';
+export default function LeadProfilePage() { return <ReactSuspense fallback={<div className="p-8">Cargando...</div>}><LeadProfileContent /></ReactSuspense>; }
