@@ -1,67 +1,112 @@
 import { 
   Lead, Opportunity, SurveySubmission, User, Campaign, PropertyUnit, 
-  Activity, Task, Intake, AttributionTouch, Quote, StageTransition, Sale
+  Activity, Task, Intake, AttributionTouch, Quote, StageTransition, Sale, OpportunityStage
 } from '../domain/schemas';
 
-export const users: User[] = [
-  { id: '11111111-1111-1111-1111-111111111111', organization_id: 'org1', name: 'Admin Quirá', role: 'ADMIN', active: true, email: 'admin@quira.com' },
-  { id: '22222222-2222-2222-2222-222222222222', organization_id: 'org1', name: 'Laura Asesora', role: 'ASESORA', active: true, email: 'laura@quira.com' },
-  { id: '33333333-3333-3333-3333-333333333333', organization_id: 'org1', name: 'TriMind Analytics', role: 'TRIMIND', active: true, email: 'analytics@trimind.com' },
-];
+const generateId = (prefix: string) => `${prefix}-${Math.random().toString(36).substring(2, 9)}`;
+const randomDate = (start: Date, end: Date) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toISOString();
 
-export const campaigns: Campaign[] = [
-  { id: 'cmp_01', name: 'Espacio_Octubre_Meta', source: 'meta', spend: 450000 },
-  { id: 'cmp_02', name: 'Precio_Flex_Meta', source: 'meta', spend: 320000 },
-];
+export function generateSeedData() {
+  const users: User[] = [
+    { id: '11111111-1111-1111-1111-111111111111', organization_id: 'org1', name: 'Admin Quirá', role: 'ADMIN', active: true, email: 'admin@quira.com' },
+    { id: '22222222-2222-2222-2222-222222222222', organization_id: 'org1', name: 'Laura Asesora', role: 'ASESORA', active: true, email: 'laura@quira.com' },
+  ];
 
-export const units: PropertyUnit[] = [
-  { id: 'u-T1-101', tower_id: 'T1', code: '101', type: 'A', area_m2: 65, published_price_cop: 350000000, inventory_state: 'AVAILABLE', price_updated_at: new Date().toISOString() },
-  { id: 'u-T1-201', tower_id: 'T1', code: '201', type: 'A', area_m2: 65, published_price_cop: 355000000, inventory_state: 'AVAILABLE', price_updated_at: new Date().toISOString() },
-  { id: 'u-T1-305', tower_id: 'T1', code: '305', type: 'B', area_m2: 85, published_price_cop: 480000000, inventory_state: 'RESERVED', price_updated_at: new Date().toISOString() },
-  { id: 'u-T2-102', tower_id: 'T2', code: '102', type: 'C', area_m2: 70, published_price_cop: 380000000, inventory_state: 'SOLD', price_updated_at: new Date().toISOString() },
-];
+  const campaigns: Campaign[] = [
+    { id: 'cmp_01', name: 'Espacio_Octubre_Meta', source: 'meta', spend: 2500000 },
+    { id: 'cmp_02', name: 'Precio_Flex_Meta', source: 'meta', spend: 1800000 },
+    { id: 'cmp_03', name: 'Busqueda_Organica_Google', source: 'google', spend: 800000 },
+  ];
 
-const now = new Date().toISOString();
-const twoDaysAgo = new Date(Date.now() - 86400000 * 2).toISOString();
-const fiveDaysAgo = new Date(Date.now() - 86400000 * 5).toISOString();
-
-export const leads: Lead[] = [
-  { id: 'l-1111-1111', name: 'Carlos Mendoza', phone_e164: '+573001234567', email_normalized: 'carlos@example.com', city: 'Bogotá', person_status: 'ACTIVE', merge_into_id: null, created_at: twoDaysAgo, updated_at: twoDaysAgo },
-  { id: 'l-2222-2222', name: 'Ana Sofía Rojas', phone_e164: '+573109876543', email_normalized: 'ana@example.com', city: 'Medellín', person_status: 'ACTIVE', merge_into_id: null, created_at: fiveDaysAgo, updated_at: fiveDaysAgo },
-];
-
-export const intakes: Intake[] = [
-  { id: 'in-1', lead_id: leads[0].id, channel: 'SURVEY', occurred_at: twoDaysAgo, raw_source: 'fb_ad', attribution_status: 'IDENTIFIED', related_submission_id: 'sub-1' },
-  { id: 'in-2', lead_id: leads[1].id, channel: 'WEB', occurred_at: fiveDaysAgo, raw_source: 'organic', attribution_status: 'UNKNOWN', related_submission_id: null },
-];
-
-export const opportunities: Opportunity[] = [
-  { id: 'opp-1', lead_id: leads[0].id, project_id: 'prj-quira', cycle_key: '2026-Q4', stage: 'QUALIFIED', disposition: 'ACTIVE', assignee_id: users[1].id, score_status: 'QUALIFIED', score_total: 85, priority: 'HIGH', created_from_intake_id: intakes[0].id, next_action_due_at: now, created_at: twoDaysAgo, updated_at: now },
-  { id: 'opp-2', lead_id: leads[1].id, project_id: 'prj-quira', cycle_key: '2026-Q4', stage: 'QUOTED', disposition: 'ACTIVE', assignee_id: users[1].id, score_status: 'QUALIFIED', score_total: 65, priority: 'NORMAL', created_from_intake_id: intakes[1].id, next_action_due_at: null, created_at: fiveDaysAgo, updated_at: now },
-];
-
-export const stageTransitions: StageTransition[] = [
-  { id: 'st-1', opportunity_id: opportunities[0].id, old_stage: 'NEW', new_stage: 'CONTACTING', actor_id: users[1].id, occurred_at: twoDaysAgo, override_reason: null },
-  { id: 'st-2', opportunity_id: opportunities[0].id, old_stage: 'CONTACTING', new_stage: 'CONTACTED', actor_id: users[1].id, occurred_at: twoDaysAgo, override_reason: null },
-  { id: 'st-3', opportunity_id: opportunities[0].id, old_stage: 'CONTACTED', new_stage: 'QUALIFIED', actor_id: users[1].id, occurred_at: now, override_reason: null },
-];
-
-export const submissions: SurveySubmission[] = [
-  { 
-    id: 'sub-1', survey_version_id: 'v1', lead_id: leads[0].id, session_id: 'sess1', submitted_at: twoDaysAgo, payload_hash: 'hash', idempotency_key: 'idk1', valid: true,
-    answers: { purpose: 'Para vivir', timeframe: '0-3 meses', priorities: ['Mayor espacio', 'Ubicación'], budget: '300-400M', finance: 'Crédito hipotecario', visit: 'Sí, cuanto antes' }
+  const units: PropertyUnit[] = [];
+  for(let i=1; i<=20; i++) {
+    const isSold = Math.random() > 0.8;
+    units.push({
+      id: `u-T1-${100+i}`, tower_id: 'T1', code: `${100+i}`, type: i%2===0?'A':'B', area_m2: i%2===0?65:85, 
+      published_price_cop: i%2===0?350000000:480000000, 
+      inventory_state: isSold ? 'SOLD' : 'AVAILABLE', 
+      price_updated_at: new Date().toISOString()
+    });
   }
-];
 
-export const activities: Activity[] = [];
-export const tasks: Task[] = [];
-export const quotes: Quote[] = [];
-export const attributions: AttributionTouch[] = [
-  { id: 'attr-1', intake_id: intakes[0].id, session_id: 'sess1', lead_id: leads[0].id, campaign_id: 'cmp_01', creative_id: null, utm_json: { utm_source: 'meta', utm_campaign: 'Espacio_Octubre_Meta' }, source: 'meta', medium: 'social', occurred_at: twoDaysAgo, confidence: 'HIGH' }
-];
-export const sales: Sale[] = [];
+  const leads: Lead[] = [];
+  const intakes: Intake[] = [];
+  const opportunities: Opportunity[] = [];
+  const submissions: SurveySubmission[] = [];
+  const attributions: AttributionTouch[] = [];
+  const stageTransitions: StageTransition[] = [];
+  const activities: Activity[] = [];
+  const tasks: Task[] = [];
+  const quotes: Quote[] = [];
+  const sales: Sale[] = [];
 
-export const initialMockData = {
-  users, campaigns, units, leads, intakes, opportunities, 
-  stageTransitions, submissions, activities, tasks, quotes, attributions, sales
-};
+  const stages: OpportunityStage[] = ['NEW', 'CONTACTING', 'CONTACTED', 'QUALIFIED', 'VISIT_SCHEDULED', 'VISIT_COMPLETED', 'QUOTED', 'RESERVED', 'WON', 'LOST'];
+  
+  const now = new Date();
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 86400000);
+
+  // Generate 150 leads
+  for(let i=0; i<150; i++) {
+    const leadId = generateId('l');
+    const createdAt = randomDate(thirtyDaysAgo, now);
+    
+    leads.push({
+      id: leadId,
+      name: `Cliente Potencial ${i+1}`,
+      phone_e164: `+57300${Math.floor(1000000 + Math.random() * 9000000)}`,
+      email_normalized: `cliente${i+1}@example.com`,
+      city: Math.random() > 0.5 ? 'Bogotá' : 'Medellín',
+      person_status: 'ACTIVE',
+      merge_into_id: null,
+      created_at: createdAt,
+      updated_at: createdAt
+    });
+
+    const intakeId = generateId('in');
+    const submissionId = generateId('sub');
+    
+    intakes.push({
+      id: intakeId, lead_id: leadId, channel: 'SURVEY', occurred_at: createdAt, raw_source: 'Facebook Ad', 
+      attribution_status: 'IDENTIFIED', related_submission_id: submissionId
+    });
+
+    submissions.push({
+      id: submissionId, survey_version_id: 'v1', session_id: generateId('sess'), lead_id: leadId, 
+      submitted_at: createdAt, payload_hash: 'hash', idempotency_key: generateId('idk'), valid: true,
+      answers: { budget: '300-400M', purpose: 'Vivienda' }
+    });
+
+    const cmp = campaigns[Math.floor(Math.random() * campaigns.length)];
+    attributions.push({
+      id: generateId('attr'), intake_id: intakeId, session_id: submissionId, lead_id: leadId, campaign_id: cmp.id,
+      creative_id: null, utm_json: { utm_campaign: cmp.name, utm_source: cmp.source }, source: cmp.source, medium: 'cpc',
+      occurred_at: createdAt, confidence: 'HIGH'
+    });
+
+    const stageIdx = Math.floor(Math.random() * stages.length);
+    const stage = stages[stageIdx];
+    const oppId = generateId('opp');
+
+    opportunities.push({
+      id: oppId, lead_id: leadId, project_id: 'prj-quira', cycle_key: '2026-Q4', stage: stage, 
+      disposition: stage === 'WON' || stage === 'LOST' ? 'CLOSED' : 'ACTIVE', 
+      assignee_id: Math.random() > 0.2 ? users[1].id : null, score_status: 'QUALIFIED', score_total: Math.floor(40 + Math.random()*50), 
+      priority: Math.random() > 0.8 ? 'URGENT' : 'NORMAL', created_from_intake_id: intakeId, 
+      next_action_due_at: (stage !== 'WON' && stage !== 'LOST' && Math.random() > 0.5) ? randomDate(thirtyDaysAgo, now) : null,
+      created_at: createdAt, updated_at: createdAt
+    });
+
+    if (stage === 'WON') {
+      const soldUnit = units.find(u => u.inventory_state === 'SOLD') || units[0];
+      sales.push({
+        id: generateId('sl'), opportunity_id: oppId, unit_id: soldUnit.id, reservation_id: null, 
+        value_cop: soldUnit.published_price_cop, verification_status: 'VERIFIED', verified_by: users[0].id,
+        confirmed_at: createdAt, voided_at: null, evidence_reference: 'BankReceipt-001'
+      });
+    }
+  }
+
+  return { users, campaigns, units, leads, intakes, opportunities, stageTransitions, submissions, activities, tasks, quotes, attributions, sales };
+}
+
+export const initialMockData = generateSeedData();
