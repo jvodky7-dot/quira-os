@@ -51,9 +51,9 @@ export default function SurveysPage() {
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground border border-border rounded bg-surface-elevated transition-colors">
-              Editar
-            </button>
+            <Link href="/surveys/builder" className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground border border-border rounded bg-surface-elevated transition-colors">
+              Editar Versión
+            </Link>
             <button className="px-3 py-1.5 text-sm font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors">
               Copiar Enlace UTM
             </button>

@@ -13,5 +13,6 @@
 | **Dashboard y Marketing**| Analítica | ✅ Implementado V2 | Recalcula KPIs sobre la estructura de eventos en lugar de propiedades estáticas. |
 | **Búsqueda Global (CMD+K)**| Utilidad | ✅ Implementado P1 | Command Palette con acceso a inventario y contactos. |
 | **Matriz de Objeciones**| IA | ✅ Implementado P1 | Mockup de recomendaciones predictivas incrustado en Ficha 360°. |
+| **Constructor Encuestas**| Captación | ✅ Implementado P1 | Editor visual de bloques con soporte simulado para A/B testing. |
 
-*(Fase P0 y P1 Inicial Completada).*
+*(Fase P0 y P1 Inicial Completada en Front-end y Zustand CQRS).*
