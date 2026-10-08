@@ -8,16 +8,16 @@ export default function AgendaPage() {
   const { opportunities, leads, users } = useStore();
 
   const tasks = opportunities
-    .filter(o => o.status === 'active' && o.next_action)
+    .filter(o => o.disposition !== 'CLOSED' && o.next_action_due_at)
     .map(o => {
       const lead = leads.find(l => l.id === o.lead_id);
       const assignee = users.find(u => u.id === o.assignee_id);
       return {
         id: o.id,
-        title: o.next_action,
+        title: 'Acción Pendiente', // Simplified since we don't store text action on opp anymore, it should be in Task
         leadName: lead?.name,
         assigneeName: assignee?.name,
-        date: parseISO(o.created_at), // mocking date as created_at for demo
+        date: parseISO(o.next_action_due_at!), 
         stage: o.stage,
       };
     });

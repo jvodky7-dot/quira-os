@@ -3,6 +3,7 @@
 import { useStore } from "@/store/useStore";
 import { format, parseISO } from "date-fns";
 import { Search, UserPlus } from "lucide-react";
+import Link from "next/link";
 
 export default function LeadsPage() {
   const { leads, opportunities } = useStore();
@@ -11,8 +12,8 @@ export default function LeadsPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Contactos</h2>
-          <p className="text-muted-foreground mt-1 text-sm">Directorio de leads e interesados.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Contactos V2</h2>
+          <p className="text-muted-foreground mt-1 text-sm">Directorio de leads con modelo de resolución de identidad.</p>
         </div>
         <button className="flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:bg-primary/90 transition-colors">
           <UserPlus className="w-4 h-4 mr-2" />
@@ -37,21 +38,22 @@ export default function LeadsPage() {
             <thead className="text-xs text-muted-foreground uppercase bg-surface-elevated/50">
               <tr>
                 <th className="px-6 py-3 font-medium">Nombre</th>
-                <th className="px-6 py-3 font-medium">Teléfono</th>
+                <th className="px-6 py-3 font-medium">Teléfono (E.164)</th>
                 <th className="px-6 py-3 font-medium">Email</th>
                 <th className="px-6 py-3 font-medium text-center">Fecha Ingreso</th>
-                <th className="px-6 py-3 font-medium text-center">Estado Pipeline</th>
+                <th className="px-6 py-3 font-medium text-center">Oportunidad Actual</th>
+                <th className="px-6 py-3 font-medium text-center">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {leads.map((lead) => {
-                const opp = opportunities.find(o => o.lead_id === lead.id);
+                const opp = opportunities.find(o => o.lead_id === lead.id && o.disposition !== 'CLOSED');
                 
                 return (
                   <tr key={lead.id} className="border-b border-border last:border-0 hover:bg-surface-elevated/20 transition-colors">
                     <td className="px-6 py-4 font-medium text-foreground">{lead.name}</td>
-                    <td className="px-6 py-4 text-muted-foreground">{lead.phone}</td>
-                    <td className="px-6 py-4 text-muted-foreground">{lead.email || '-'}</td>
+                    <td className="px-6 py-4 text-muted-foreground font-mono text-xs">{lead.phone_e164 || '-'}</td>
+                    <td className="px-6 py-4 text-muted-foreground">{lead.email_normalized || '-'}</td>
                     <td className="px-6 py-4 text-center text-muted-foreground">
                       {format(parseISO(lead.created_at), 'dd/MM/yyyy')}
                     </td>
@@ -61,8 +63,13 @@ export default function LeadsPage() {
                           {opp.stage}
                         </span>
                       ) : (
-                        <span className="text-muted-foreground text-xs">Sin oportunidad</span>
+                        <span className="text-muted-foreground text-xs">Sin oportunidad activa</span>
                       )}
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <Link href={`/leads/${lead.id}`} className="text-primary hover:underline text-xs font-medium">
+                        Ver 360°
+                      </Link>
                     </td>
                   </tr>
                 )

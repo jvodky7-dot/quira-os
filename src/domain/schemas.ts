@@ -76,7 +76,7 @@ export const SurveySubmissionSchema = z.object({
   payload_hash: z.string(),
   idempotency_key: z.string(),
   valid: z.boolean(),
-  answers: z.record(z.any())
+  answers: z.record(z.string(), z.any())
 });
 
 export const AttributionTouchSchema = z.object({
@@ -86,7 +86,7 @@ export const AttributionTouchSchema = z.object({
   lead_id: IdSchema.nullable(),
   campaign_id: z.string().nullable(),
   creative_id: z.string().nullable(),
-  utm_json: z.record(z.string()).nullable(),
+  utm_json: z.record(z.string(), z.string()).nullable(),
   source: z.string().nullable(),
   medium: z.string().nullable(),
   occurred_at: DateStringSchema,

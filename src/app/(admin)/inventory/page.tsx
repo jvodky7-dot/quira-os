@@ -8,23 +8,24 @@ export default function InventoryPage() {
 
   const getStatusColor = (status: string) => {
     switch(status) {
-      case 'disponible': return 'bg-green-500/10 text-green-500 border-green-500/20';
-      case 'en_negociacion': return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
-      case 'separada': return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
-      case 'vendida': return 'bg-red-500/10 text-red-500 border-red-500/20';
+      case 'AVAILABLE': return 'bg-green-500/10 text-green-500 border-green-500/20';
+      case 'IN_NEGOTIATION': return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
+      case 'RESERVED': return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
+      case 'SOLD': return 'bg-red-500/10 text-red-500 border-red-500/20';
+      case 'OFF_MARKET': return 'bg-surface-elevated text-muted-foreground';
       default: return 'bg-surface-elevated text-muted-foreground';
     }
   };
 
   const getStatusLabel = (status: string) => {
-    return status.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    return status.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
   };
 
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Inventario</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Inventario V2</h2>
           <p className="text-muted-foreground mt-1 text-sm">Disponibilidad y precios de unidades.</p>
         </div>
       </div>
@@ -52,7 +53,7 @@ export default function InventoryPage() {
                 <th className="px-6 py-3 font-medium">Torre / Unidad</th>
                 <th className="px-6 py-3 font-medium text-right">Área (m²)</th>
                 <th className="px-6 py-3 font-medium text-center">Tipología</th>
-                <th className="px-6 py-3 font-medium text-right">Precio Vigente</th>
+                <th className="px-6 py-3 font-medium text-right">Precio Vigente (COP)</th>
                 <th className="px-6 py-3 font-medium text-center">Estado</th>
               </tr>
             </thead>
@@ -60,16 +61,16 @@ export default function InventoryPage() {
               {units.map((unit) => (
                 <tr key={unit.id} className="border-b border-border last:border-0 hover:bg-surface-elevated/20 transition-colors">
                   <td className="px-6 py-4 font-medium text-foreground">
-                    {unit.tower} - <span className="text-primary">{unit.unit}</span>
+                    {unit.tower_id} - <span className="text-primary">{unit.code}</span>
                   </td>
-                  <td className="px-6 py-4 text-right">{unit.area} m²</td>
+                  <td className="px-6 py-4 text-right">{unit.area_m2} m²</td>
                   <td className="px-6 py-4 text-center">{unit.type}</td>
                   <td className="px-6 py-4 text-right font-medium text-foreground">
-                    ${unit.price.toLocaleString()}
+                    ${unit.published_price_cop.toLocaleString()}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <span className={`px-2.5 py-1 text-xs font-semibold rounded-full border ${getStatusColor(unit.status)}`}>
-                      {getStatusLabel(unit.status)}
+                    <span className={`px-2.5 py-1 text-xs font-semibold rounded-full border ${getStatusColor(unit.inventory_state)}`}>
+                      {getStatusLabel(unit.inventory_state)}
                     </span>
                   </td>
                 </tr>

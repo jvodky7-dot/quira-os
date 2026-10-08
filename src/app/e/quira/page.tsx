@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 function SurveyForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { addLead, addOpportunity, addSubmission, leads } = useStore();
+  const { leads } = useStore();
   
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, any>>({});
@@ -69,42 +69,26 @@ function SurveyForm() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate server validation/delay
-    await new Promise(r => setTimeout(r, 1000));
-    
-    const leadId = `l_${Date.now()}`;
-    const oppId = `o_${Date.now()}`;
-    const now = new Date().toISOString();
+    try {
+      const utmParams = {
+        utm_source: searchParams.get('utm_source') || '',
+        utm_medium: searchParams.get('utm_medium') || '',
+        utm_campaign: searchParams.get('utm_campaign') || '',
+        utm_content: searchParams.get('utm_content') || ''
+      };
 
-    addLead({
-      id: leadId,
-      name: answers.name,
-      phone: answers.phone,
-      email: answers.email,
-      consent: answers.consent,
-      created_at: now
-    });
+      await useStore.getState().submitSurvey({
+        answers,
+        utmParams,
+        campaignId: searchParams.get('campaign_id') || undefined
+      });
 
-    addOpportunity({
-      id: oppId,
-      lead_id: leadId,
-      stage: 'Nuevo',
-      score: 50, // basic heuristic can be added here
-      status: 'active',
-      created_at: now
-    });
-
-    addSubmission({
-      id: `s_${Date.now()}`,
-      version_id: 'v1',
-      lead_id: leadId,
-      session_id: `sess_${Date.now()}`,
-      received_at: now,
-      ...utms,
-      answers
-    });
-
-    router.push('/e/quira/gracias');
+      router.push('/e/quira/gracias');
+    } catch (err) {
+      console.error('Failed to submit survey:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const currentStep = steps[step];
